@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta rel="shortcut icon" type="x-icon" href="thanksgiving-day-meal-with-copy-space_23-2149100110.jpg"> -->
+    <title>Reaction Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+        
+        .header {
+            height: 72vh;
+            height: 72dvh;
+            color: white;
+            font-size: 45px;
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.4);
+        }
+        .header > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            height: 100%;
+        }
+        .header > div.waitToClickPart {
+            background-color: #1961c7;
+            justify-content: space-evenly;
+        }
+        .waitPart {
+            background-color: #7c0a02;
+        }
+        .radomkPart {
+            background-color: #60eb60;
+        }
+        .header > div.hidden {
+            display: none;
+        }
+        .header > div:hover {
+            cursor: pointer
+        }
+        .header .buttons {
+            display: none;
+        }
+        .header .buttons input {
+            color: white;
+            background-color: rgb(46, 207, 100);
+            padding: 12px 8px;
+            border: 0;
+            transition: 0.1s;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .header > div input:first-of-type {
+            background-color: rgb(237, 237, 122);
+        }
+        .header .buttons input:hover {
+            background-color: rgb(34, 191, 86);
+        }
+        .header > div input:first-of-type:hover {
+            background-color: rgb(229, 229, 88);
+        }
+        .waitPart .dotsContainer span {
+            width: 15px;
+            display: inline-block;
+            /* border-end-end-radius: 50%; */
+            border-radius: 50%;
+            aspect-ratio: 1;
+            opacity: 0.1;
+            background-color: white;
+            animation: loading 1s infinite alternate;
+        }
+        .waitPart .dotsContainer span:nth-child(2) {
+            animation-delay: 0.33s;
+        }
+        .waitPart .dotsContainer span:nth-child(3) {
+            animation-delay: 0.66s;
+        }
+        @keyframes loading {
+            from {
+                opacity: 0.1;
+                transform: scale(1);
+            } to {
+                opacity: 1;
+                transform: scale(1.41283);
+            }
+        }
+        .stats {
+            max-height: 80vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="waitToClickPart">
+            <i style="font-size: 90px;" class="fa-solid fa-clock"></i>
+            <h1>Test Your Reaction !</h1>
+            <div class="buttons">
+                <input type="submit" value="Try Again">
+                <input type="submit" value="Show Stats">
+            </div>
+            <div class="caption" style="font-size: 28px; font-family: system-ui;">click to keep going</div>
+        </div>
+        <div class="waitPart hidden">
+            <div style="font-size: 100px; font-weight: bold;" class="dotsContainer">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <h1>Wait For Green</h1>
+        </div>
+        <div class="radomkPart hidden">
+            <h1>click !</h1>
+        </div>
+    </div>
+    <div class="stats">
+        <canvas id="myChart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="testReactionSpeed.js"></script>
+</body>
+</html>
