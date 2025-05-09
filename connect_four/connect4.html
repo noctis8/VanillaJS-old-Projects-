@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>connect 4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        :root {
+            --backColor: #101b27;
+            --boardColor: #283a4b;
+            --lightBoardColor: #37546e;
+            --firstPlayer: #a81b1b; 
+            --secondPlayer: #4CAF50;
+            --borderRadius: 16px;
+        }
+        .page-container {
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--backColor);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .board {
+            background-color: var(--boardColor);
+            border-radius: var(--borderRadius);
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-columns: repeat(7, 1fr);
+            /* gap: min(1.5rem, 0.75vw); */
+            box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+        }
+        .column {
+            display: grid;
+            gap: min(1.5rem, 1vh);
+            justify-content: center;
+            padding: min(1.25vw, 0.5rem);
+        }
+        .column:hover {
+            background-color: var(--lightBoardColor);
+            cursor: pointer;
+            border-radius: var(--borderRadius);
+        }
+        .circle-container {
+            padding: min(10px, .3vw);
+        }
+        .circle {
+            border-radius: 50%;
+            background-color: var(--backColor);
+            width: min(3.5rem, 8vw);
+            aspect-ratio: 1;
+        }
+        .circle.player1 {
+            background-color: var(--firstPlayer);
+        }
+        .circle.player2 {
+            background-color: var(--secondPlayer);
+        }
+        .circle.winner {
+            position: relative;
+        }
+        .circle.winner.player1 {
+            animation: pulsate1 1s ease-in-out 2;
+            box-shadow: 0 0 0 rgba(109, 10, 10, 0.4);
+        }
+        .circle.winner.player2 {
+            animation: pulsate2 1s ease-in-out 2;
+            box-shadow: 0 0 0 rgba(67, 246, 79, 0.4);
+        }
+        @keyframes pulsate1 {
+            30% {
+                box-shadow: 0 0 5px rgb(255, 56, 30), 0 0 40px rgba(148, 55, 25, 0.6), 0 0 60px rgba(255, 0, 0, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 0 rgba(109, 10, 10, 0.4);
+            }
+        }
+        @keyframes pulsate2 {
+            30% {
+                box-shadow: 0 0 5px rgb(8, 123, 60), 0 0 40px rgba(95, 251, 28, 0.6), 0 0 60px rgba(84, 225, 74, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 0 rgba(67, 246, 79, 0.4);
+            }
+        }
+        .cover {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background-color: transparent;
+            z-index: 654654;
+            display: none
+        }
+        .restart {
+            background-color: #565c65;
+            cursor: pointer;
+            color: white;
+            aspect-ratio: 1;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.5);
+            font-size: min(3rem, 5vw);
+            transition: 1s;
+            position: relative;
+            border-radius: 16px;
+            padding: min(2rem, 2.5vw);
+            display: flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .restart:hover {
+            transition: 0.25s;
+            padding: min(1.75rem, 1.5vw);;
+            background-color: #90a1c1;
+        }
+    </style>
+</head>
+<body>
+    <div class="cover">
+        <div class="restart"><i class="fas fa-undo"></i></div>
+    </div>
+    <div class="page-container">
+        <div class="board">
+            <!-- 1st column -->
+            <div class="column" data-coordinated="1">
+                <div class="circle-container">
+                    <div data-abscissa="1" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="2" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="3" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="4" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="5" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="6" class="circle"></div>
+                </div>
+            </div>
+            <!-- 2nd column -->
+            <div class="column" data-coordinated="2">
+                <div class="circle-container">
+                    <div data-abscissa="1" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="2" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="3" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="4" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="5" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="6" class="circle"></div>
+                </div>
+            </div>
+            <!-- 3rd column -->
+            <div class="column" data-coordinated="3">
+                <div class="circle-container">
+                    <div data-abscissa="1" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="2" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="3" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="4" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="5" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="6" class="circle"></div>
+                </div>
+            </div>
+            <!-- 4th column -->
+            <div class="column" data-coordinated="4">
+                <div class="circle-container">
+                    <div data-abscissa="1" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="2" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="3" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="4" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="5" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="6" class="circle"></div>
+                </div>
+            </div>
+            <!-- 5th column -->
+            <div class="column" data-coordinated="5">
+                <div class="circle-container">
+                    <div data-abscissa="1" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="2" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="3" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="4" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="5" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="6" class="circle"></div>
+                </div>
+            </div>
+            <!-- 6th column -->            
+            <div class="column" data-coordinated="6">
+                <div class="circle-container">
+                    <div data-abscissa="1" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="2" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="3" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="4" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="5" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="6" class="circle"></div>
+                </div>
+            </div>
+            <!-- 7th column -->
+            <div class="column" data-coordinated="7">
+                <div class="circle-container">
+                    <div data-abscissa="1" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="2" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="3" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="4" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="5" class="circle"></div>
+                </div>
+                <div class="circle-container">
+                    <div data-abscissa="6" class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="connect4.js"></script>
+</body>
+</html>

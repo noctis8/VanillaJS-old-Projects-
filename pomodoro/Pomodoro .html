@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promodo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .choosingWorkTime, .choosingBreakTime {
+            background-color: cadetblue;
+            flex-direction: column;
+            gap: 50px;
+            position: relative
+        }
+        .title {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            font-size: 30px;
+        }
+        input {
+            border-radius: 15px;
+            padding: 8px 20px;
+            width: 100%;
+            font-size: 25px;
+            text-align: center;
+        }
+        .choosingWorkTime i,
+        .choosingBreakTime i {
+            position: absolute;
+            right: 50%;
+            transform: translate(50%, 0%);
+            bottom: 10%;
+            font-size: 30px;
+            cursor: pointer;
+            animation: bouncing 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes bouncing {
+            0% {
+                transform: translate(50%, 10px);
+            }
+        }
+        .countDown, .choosingWorkTime, .choosingBreakTime {
+            display: flex;
+            padding-inline: 1rem;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 38px;
+            font-weight: bold;
+            text-align: center;
+            height: 100vh;
+        }
+        .countDown {
+            background-color: rgb(60 60 60);
+            position: relative;
+        }
+        .caption {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+        .time {
+            font-size: 80px;
+            margin-top: 30px;
+        }
+        .remaining {
+            position: absolute;
+            height: 20px;
+            background-color: white;
+            width: 0%;
+            bottom: 0;
+            transition: 0.1s;
+            left: 0;
+        }
+        .toUp {
+            right: 5%;
+            width: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1;
+        }
+        .toUp i {
+            font-size: 30px;
+        }
+        .repeat, .toUp {
+            position: fixed;
+            bottom: 5%;
+            background-color: #9b9b9b;
+            border-radius: 6px;
+            transition: 0.1s;
+            box-shadow: 0 1px 1px rgb(0, 0, 0, 40%);
+            color: white;
+            cursor: pointer;
+            z-index: 5245;
+            visibility: hidden;
+        }
+        .toUp:hover, .repeat:hover {
+            background-color: #848484;
+            transition: 0.15s;
+            
+        }
+        .repeat {
+            left: 5%;
+            font-size: 25px;
+            padding: 1rem;
+        }
+        /*to block scrolling in the page */
+        body {
+            overflow: hidden;
+        }
+        /* styling for the alert box */
+        .alertContent ~ *:not(.toUp) :not(.repeat) {   /* all the father elements (siblings to alertContent) except  toUp */
+            opacity: 1;
+        }
+        .alertContent ~ *.hide:not(.toUp) {     /* same thing but all elements with hide class except  toUp */
+            opacity: 0.5;
+        }
+        .alertContent {
+            width: 55vw;
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(.1);
+            visibility: hidden;
+            transition: 0.3s;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: space-evenly;
+            padding: 1.5rem;
+            padding-bottom: 3rem;
+            z-index: 6534513;
+            box-shadow: 0 1px 5px rgb(0, 0, 0, 40%);
+            border-radius: 5px;
+        }
+        .alertContent .icon {
+            color: red;
+            font-size: 50px;
+            font-weight: bold;
+        }
+        .alertContent .infos {
+            text-align: center;
+            color: #555;
+            font-size: 27px;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+        }
+        .alertContent .infos .close {
+            padding: 10px;
+            cursor: pointer;
+            color: black;
+        }
+        @media (max-width: 638px) {
+            .alertContent {
+                flex-direction: column;
+            }
+            .alertContent p {
+                font-size: 18px;
+            }
+            .alertContent .infos {
+            align-items: center;
+            flex-direction: column-reverse;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="alertContent">
+        <div class="icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div class="infos">
+            <div class="close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="text">
+                <p>* inputs fields must be positive values and don't containes characters *</p>
+                <p>* seconds must be lower than 59 seconds *</p>
+            </div>
+        </div>
+    </div>
+    <div class="repeat">
+        Repeat
+    </div>
+    <span class="toUp">
+        <i style="color: white;" class="fa-sharp fa-solid fa-arrow-up"></i>
+    </span>
+    <div class="choosingWorkTime">
+        <div class="title">WORK DURATION :</div>
+        <div class="minutes">
+            <label for="">minutes : </label>
+            <input class="workMins" value="30" type="number"  step="1">
+        </div>
+        <div class="secondes">
+            <label for="">secondes : </label>
+            <input class="workSecs" value="00" type="number" step="1">
+        </div>
+        <i onclick="toDownAndChoose()" class="fa-solid fa-angles-down"></i>
+    </div>
+    <div class="choosingBreakTime">
+        <div class="title">BREAK DURATION :</div>
+        <div class="minutes">
+            <label for="">minutes : </label>
+            <input class="breakMins" value="05" type="number" step="1">
+        </div>
+        <div class="secondes">
+            <label for="">secondes : </label>
+            <input class="breakSecs" value="00" type="number"  step="1">
+        </div>
+        <i onclick="toDownAndStart()" class="fa-solid fa-angles-down"></i>
+    </div>
+    <div class="countDown">
+        <div class="caption">
+            <h3></h3>
+            <div class="time">
+                <span class="minutesCountDown"></span>
+                <span class="vergule"></span>
+                <span class="secondesCountDown"></span>
+            </div>
+        </div>
+        <div class="remaining"></div>
+    </div>
+    <script src="Pomodoro .js"></script>
+</body>
+</html>
