@@ -10,10 +10,10 @@ A simple app that tests your reaction speed — you need to click when the green
 - 🧮 [memory_game](./memory_game/memoryGame.html)  
 A classic memory matching game, no explanation needed.
 
-⏱️ [promoddo](./pomodoro/Pomodoro.html)  
+- ⏱️ [promoddo](./pomodoro/Pomodoro.html)  
 A simple Pomodoro timer — helps you stay focused using work/break intervals based on the Pomodoro Technique.
 
-🎯 [connect4](./connect_four/connect4.html)  
+- 🎯 [connect4](./connect_four/connect4.html)  
 A digital version of the classic Connect Four game — it need two players.
 
 
